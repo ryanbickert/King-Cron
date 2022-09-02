@@ -3,9 +3,9 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text scoreText;
+    [System.NonSerialized] public int score;
 
-    private int score;
+    [SerializeField] private TMP_Text scoreText;
 
     public void OnScoreUpdate()
     {

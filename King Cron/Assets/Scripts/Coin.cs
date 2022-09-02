@@ -4,6 +4,7 @@ using System.Collections;
 public class Coin : MonoBehaviour
 {
     [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private float timeToWait = 0.1f;
 
     private AudioSource myAudioSource;
 
@@ -21,7 +22,7 @@ public class Coin : MonoBehaviour
 
     private IEnumerator DestroyCoin()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(timeToWait);
 
         Destroy(gameObject);
     }
