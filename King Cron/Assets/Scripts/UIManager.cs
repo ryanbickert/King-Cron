@@ -9,10 +9,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject highScoreUI;
+    [SerializeField] private ReturnJSON returnJSON;
     [SerializeField] private GameObject player;
-    [SerializeField] private TMP_Text playerName;
+    [SerializeField] private TMP_Text playerNameTMP;
 
-    private string url = "https://www.catalyst.com";
+    private string url = "http://localhost:3000/server/cron-functions/submit-score";
 
     public void ActivateEndGameUI()
     {
@@ -22,8 +23,8 @@ public class UIManager : MonoBehaviour
 
     public void SubmitHighScore()
     {
-        StartCoroutine(nameof(SendHighScore));
         highScoreUI.SetActive(false);
+        StartCoroutine(nameof(SendHighScore));
     }
 
     public void RestartGame()
@@ -33,21 +34,25 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator SendHighScore()
     {
-        WWWForm form = new();
-        form.AddField("playerName", playerName.text);
-        form.AddField("score", scoreManager.score);
+        returnJSON.playerName = playerNameTMP.text;
+        returnJSON.score = scoreManager.score;
+        string testc = returnJSON.ConvertToJSON(playerNameTMP.text, scoreManager.score);
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, testc))
         {
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.result != UnityWebRequest.Result.Success)
+            Debug.Log(webRequest.result);
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("Error with score upload");
+                Debug.Log("The score was uploaded");
             }
             else
             {
-                Debug.Log("The score was uploaded");
+                Debug.Log("Error with score upload");
             }
         }
     }
