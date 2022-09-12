@@ -8,4 +8,9 @@ public class EndGame : MonoBehaviour
     {
         uiManager.ActivateEndGameUI();
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        uiManager.ActivateEndGameUI();
+    }
 }
