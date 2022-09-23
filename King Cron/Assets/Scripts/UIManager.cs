@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private TMP_Text playerNameTMP;
 
-    private string url = "http://localhost:3000/server/cron-functions/submit-score";
+    private string url = "https://www.tsunamigames.dev/server/cron-functions/submit-score";
 
     public void ActivateEndGameUI()
     {
